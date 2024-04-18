@@ -1,0 +1,10 @@
+create : 	  CREATE 
+table : 	  TABLE 
+t : 	  IDENTIFIER 
+( : 	  ( 
+id : 	  IDENTIFIER 
+int : 	  DataType 
+, : 	  COMMA 
+champ : 	  IDENTIFIER 
+int : 	  DataType 
+) : 	  ) 

@@ -1,0 +1,8 @@
+{command}{sp}*{object}{sp}*{identifier}{sp}*\n*{opO}({sp}*{champ}{virg}{sp}*\n)*({sp}*{champ}{sp}*\n*){opF}{endCommand} { 
+//     printf("Requête accepte ! \n"); 
+//     char *token = strtok(yytext, " ,;\n"); // Tokenize the matched text
+//     while (token != NULL) {
+//         printf("Token: %s \t \n", token); 
+//         token = strtok(NULL, " ,;\n");
+//     }
+// }
