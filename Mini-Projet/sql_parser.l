@@ -48,7 +48,8 @@ PRIMARY[[:space:]]KEY { return PRIMARY_KEY; }
 [(] { return BracO; }
 [)] { return BracC; }
 [*] { return ASTR; }
-
+[;] { return END; }
+[=] { return EQUAL; }
 
 
 
@@ -67,7 +68,7 @@ PRIMARY[[:space:]]KEY { return PRIMARY_KEY; }
 '(\\.|[^'\n])*$ { printf("Unterminated string %s", yytext); }
 
 
-"=" { yylval.subtok="="; return COMPARISON; }
+
 ">=" { yylval.subtok=">="; return COMPARISON; }
 ">" { yylval.subtok=">"; return COMPARISON; }
 "<=" { yylval.subtok="<="; return COMPARISON; }

@@ -10,6 +10,11 @@
 
 int yylex();
 
+int num_selected_fields = 0;  /* Number of selected fields in the SELECT statement */
+int num_inserted_values =0 ;  /* Number of inserted fields in the INSERT statement */
+int num_columns=0;
+char * query_type = NULL ;  
+
 %}
 
 %union {
@@ -74,6 +79,8 @@ int yylex();
 %token BracO
 %token BracC
 %token ASTR
+%token END
+%token EQUAL
 
 /*
 %token FCOUNT
@@ -81,6 +88,15 @@ int yylex();
 */
 
 %%
+sql_queries: sql_query | sql_query sql_queries ;
+
+sql_query: 
+    sql_statement END 
+    { print_query_result(query_type, num_selected_fields, num_inserted_values, num_columns);
+    num_selected_fields=0;
+    num_inserted_values=0;
+    num_columns=0;
+    }; 
 
 sql_statement:
     select_statement
@@ -94,11 +110,13 @@ sql_statement:
 
 create_table_statement:
     CREATE TABLE table_reference BracO column_definition_list BracC
+    {query_type="CREATE TABLE";}
     ;
 
 column_definition_list:
     column_definition PRIMARY_KEY 
     | column_definition VIRG column_definition_list 
+    | column_definition_list VIRG column_definition 
     | column_definition 
     ;
 
@@ -117,51 +135,25 @@ data_type:
 
 select_statement:
     SELECT select_list FROM table_reference opt_where opt_group_by opt_order_by opt_limit
+    {query_type="SELECT";}
     ;
 
 select_list:
-    IDENTIFIER VIRG select_list  
-    | IDENTIFIER   
-    | ASTR             
+    IDENTIFIER {num_selected_fields++;} VIRG select_list  
+    | IDENTIFIER  {num_selected_fields++;} 
+    | ASTR  {num_selected_fields=-1;}
     ;
 
 table_reference:
     IDENTIFIER ; 
 
+/*update*/ 
 update_statement:
     UPDATE table_reference SET set_clause opt_where
+    {query_type= "UPDATE";}
     ;
-
-delete_statement:
-    DELETE FROM table_reference opt_where
-    ;
-
-insert_statement:
-    INSERT INTO table_reference opt_column_list VALUES value_list
-    ;
-
-column_list:
-    IDENTIFIER VIRG column_list
-    | IDENTIFIER
-    ;
-
-value_list:
-    BracO values BracC
-    ;
-
-values:
-    literal VIRG values
-    | literal
-    ;
-
-literal:
-    INTNUM
-    | FLOATNUM
-    | STRING
-    ;
-
 set_clause:
-    SET set_list
+    set_list
     ;
 
 set_list:
@@ -170,8 +162,43 @@ set_list:
     ;
 
 set_item:
-    IDENTIFIER '=' expression
+    IDENTIFIER EQUAL expression
+    | IDENTIFIER EQUAL literal
     ;
+
+/*delete*/
+delete_statement:
+    DELETE FROM table_reference opt_where
+    {query_type = "DELETE";}
+    ;
+
+/*insert*/ 
+insert_statement:
+    INSERT INTO table_reference opt_column_list VALUES value_list
+    {query_type = "INSERT";}
+    ;
+
+column_list:
+    IDENTIFIER {num_columns++;} VIRG column_list
+    | IDENTIFIER  {num_columns++;}
+    ;
+
+value_list:
+    BracO values BracC
+    ;
+
+values:
+    literal {num_inserted_values++;} VIRG values
+    | literal {num_inserted_values++;}
+    ;
+
+literal:
+    INTNUM
+    | FLOATNUM
+    | STRING
+    ;
+
+
 
 /*OPTIONAL*/ 
 
@@ -188,12 +215,17 @@ opt_group_by:
     ;
 
 opt_order_by:
-    | ORDER BY column_list
+    | ORDER BY column_list  order_type
     ;
+order_type : 
+    ASC 
+    | DESC 
+    ; 
 
 opt_limit:
     | LIMIT INTNUM
     ;
+
 
 expression:
     comparison_expression
@@ -203,6 +235,7 @@ expression:
 
 comparison_expression:
     term COMPARISON term
+    |term EQUAL term
     ;
 
 logical_expression:

@@ -1,0 +1,7 @@
+SELECT * FROM person ; 
+SELECT name FROM person WHERE age>18 ; 
+SELECT name, age FROM person WHERE age>18 ORDER BY age DESC ; 
+INSERT INTO person VALUES('ali','M',25) ; 
+CREATE TABLE person ( name VARCHAR(20) PRIMARY KEY, sexe VARCHAR(1), age INTEGER);
+UPDATE person SET salaire=1200 WHERE name='ali';
+UPDATE person SET salaire=1200;
