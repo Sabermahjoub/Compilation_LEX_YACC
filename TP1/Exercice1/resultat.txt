@@ -1,6 +1,0 @@
-[aabb] : les a précèdent les b 
-[ab] : les a précèdent les b 
-[ab] : les a précèdent les b 
-[ab] : les a précèdent les b 
-[ab] : les a précèdent les b 
-[ab] : les a précèdent les b 

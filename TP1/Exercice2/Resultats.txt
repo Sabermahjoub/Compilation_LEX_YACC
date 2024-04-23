@@ -1,4 +1,0 @@
-Nombre de mots: 9
-Nombre de lignes: 3
-Nombre de caractères: 29
-Somme des nombres lus: 6

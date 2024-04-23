@@ -1,9 +1,0 @@
-#define command 1
-#define object 2
-#define identifier 3
-#define opO 4
-#define data_type 5
-#define PK 6
-#define virg 7
-#define opF 8
-#define endCommand 10
