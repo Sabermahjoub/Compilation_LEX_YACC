@@ -1,6 +1,6 @@
 %{
-
 %}
+%error-verbose
 
 %token command;
 %token table;
@@ -16,9 +16,11 @@
 %token INT;
 
 %%
-input : command table {printf("first ok ");};
-createSQL: request fin {printf("Request Create is Successfull ! ");};
-request: command table identifier parOuv champ parFerm {printf("herrre");};
+
+createSQL: requests fin;
+requests: request
+        | requests fin request;
+request: command table identifier parOuv champ parFerm { printf("Request Create is Successfull ! "); };
 champ: identifier datatype constraint virg champ
     | identifier datatype constraint ;
 datatype : INT | varchar | date ;
@@ -32,6 +34,5 @@ yyerror (char * s){
 
 int main() {
     yyparse();
-    getchar();
     return 0;
 }

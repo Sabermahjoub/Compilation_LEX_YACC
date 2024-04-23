@@ -1,10 +1,5 @@
-create : 	  CREATE 
-table : 	  TABLE 
-t : 	  IDENTIFIER 
+CREATE : 	  CREATE 
+TABLE : 	  TABLE 
+User : 	  IDENTIFIER 
 ( : 	  ( 
 id : 	  IDENTIFIER 
-int : 	  DataType 
-, : 	  COMMA 
-champ : 	  IDENTIFIER 
-int : 	  DataType 
-) : 	  ) 

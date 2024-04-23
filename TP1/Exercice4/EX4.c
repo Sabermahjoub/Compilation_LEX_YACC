@@ -5,7 +5,6 @@ extern int yylex();
 extern int yylineno;
 extern char* yytext;
 
-//char *tokens[10] = {NULL,"command","object","identifier","opO","data_type","PK","virg","opF","endCommand"} ;
 
 int main(void) {
     FILE *output_file = fopen("Resultats.txt", "w");
@@ -15,7 +14,6 @@ int main(void) {
     }
     int ntoken,vtoken; 
     ntoken = yylex();
-    int test=0;
     while(ntoken) {
         //printf ("%s \n", tokens[ntoken]);
         switch(ntoken) {
@@ -31,6 +29,7 @@ int main(void) {
                     printf("SYNTAX ERROR, ';' is missed  ");
                     return 1;
                 }
+                break;
             case data_type:
                 fprintf(output_file, "%s : \t  DataType \n", yytext);
                 vtoken= yylex();
@@ -57,7 +56,13 @@ int main(void) {
                 }
                 else if (vtoken == virg) {
                     fprintf(output_file, "%s : \t  COMMA \n", yytext);
-                    ntoken= yylex();
+                    int vtoken_2= yylex();
+                    if (vtoken_2== opF) {
+                        printf("EXPECTED Another IDENTIFIER AFTER VIRGULE, BUT RECEIVED : %s",yytext);
+                        return 1;
+                    }
+                    ntoken= vtoken_2;
+
                     continue;
                 }
                 else if (vtoken == opF) {
@@ -120,3 +125,4 @@ int main(void) {
     fclose(output_file);
     return 0;
 }
+//char *tokens[10] = {NULL,"command","object","identifier","opO","data_type","PK","virg","opF","endCommand"} ;

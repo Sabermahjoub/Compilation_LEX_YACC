@@ -17,10 +17,6 @@ int yywrap() {return 1;}
 
 int main(int argc, char *argv[]){
 
-// Get-Content data.txt | ./output
-
-
-
 FILE *output_file = fopen("Resultats.txt", "w");
         if (output_file == NULL) {
             fprintf(stderr, "Erreur lors de l'ouverture du fichier.\n");
@@ -36,6 +32,10 @@ FILE *output_file = fopen("Resultats.txt", "w");
         
         fclose(output_file);
         
-        printf("Les résultats ont été écrits dans le fichier 'Resultats.txt'.\n");
+        printf("Les résultats ont ete ecrits dans le fichier 'Resultats.txt'.\n");
     return 0;
 }
+
+
+
+// Get-Content data.txt | ./output

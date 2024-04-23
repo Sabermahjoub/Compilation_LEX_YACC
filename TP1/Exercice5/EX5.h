@@ -7,4 +7,5 @@
 #define motcle 7
 #define chaine 8
 #define commentaire 9
+#define exposant 44
 #define SyntaxError 99
